@@ -2,6 +2,7 @@
 
 A straightforward blog built with Go. This project is an API only and has no frontend.
 
+NOT FINISHED YET
 ## Requirements
 
 - Go 1.26
