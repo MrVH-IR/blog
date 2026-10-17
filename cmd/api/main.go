@@ -2,7 +2,7 @@ package main
 
 import (
 	"blog/internal/database"
-	"blog/internal/httpx"
+	"blog/internal/router"
 	"context"
 	"log"
 	"net/http"
@@ -20,29 +20,7 @@ func main() {
 	}
 	defer pool.Close()
 
-	mux := http.NewServeMux()
-
-	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
-		httpx.WriteJSON(w, http.StatusOK, map[string]string{
-			"status": "ok",
-		})
-	})
-
-	mux.HandleFunc("GET /health/db", func(w http.ResponseWriter, r *http.Request) {
-		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-		defer cancel()
-
-		if err := pool.Ping(ctx); err != nil {
-			httpx.WriteJSON(w, http.StatusServiceUnavailable, map[string]string{
-				"status": "unavailable",
-			})
-			return
-		}
-
-		httpx.WriteJSON(w, http.StatusOK, map[string]string{
-			"status": "ok",
-		})
-	})
+	handler := router.New(pool)
 
 	addr := os.Getenv("HTTP_ADDR")
 	if addr == "" {
@@ -51,7 +29,7 @@ func main() {
 
 	server := &http.Server{
 		Addr:              addr,
-		Handler:           mux,
+		Handler:           handler,
 		ReadHeaderTimeout: 5 * time.Second,
 	}
 
