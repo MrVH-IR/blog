@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -46,10 +47,17 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 		httpx.WriteError(w, http.StatusInternalServerError, err.Error())
 	}
 
+	token, err := GenerateToken(fmt.Sprint(u.ID))
+	if err != nil {
+		httpx.WriteError(w, http.StatusInternalServerError, "could not generate access token")
+		return
+	}
+
 	httpx.WriteJSON(w, http.StatusOK, map[string]string{
 		"id":         strconv.Itoa(u.ID),
 		"name":       u.Name,
 		"email":      u.Email,
+		"token":      token,
 		"created_at": u.CreatedAt.Format(time.RFC3339),
 	})
 }

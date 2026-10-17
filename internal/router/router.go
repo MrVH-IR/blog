@@ -36,6 +36,22 @@ func New(pool *pgxpool.Pool) http.Handler {
 		})
 	})
 
+	mux.Handle("GET /api/v1/me", auth.AuthMiddleware(
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			userID, ok := r.Context().Value(auth.UserIDContextKey).(string)
+			if !ok {
+				httpx.WriteJSON(w, http.StatusUnauthorized, map[string]string{
+					"error": "unauthorized",
+				})
+				return
+			}
+
+			httpx.WriteJSON(w, http.StatusOK, map[string]string{
+				"user_id": userID,
+			})
+		}),
+	))
+
 	userRepo := user.NewRepository(pool)
 	userService := user.NewService(userRepo)
 	userHandler := user.NewHandler(userService)
