@@ -15,6 +15,8 @@ Create a `.env` file in the project root:
 ```env
 DATABASE_URL=postgres://USER:PASSWORD@localhost:5432/blog?sslmode=disable
 HTTP_ADDR=localhost:8000
+JWT_SECRET=replace_this_with_a_long_random_secret(32Bytes)
+JWT_TTL=15m
 ```
 
 ## Running the Project
