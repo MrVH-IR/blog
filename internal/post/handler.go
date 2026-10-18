@@ -42,7 +42,7 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := parseUserID(userID)
+	id, err := ParseUserID(userID)
 	if err != nil {
 		httpx.WriteError(w, http.StatusUnauthorized, "invalid user ID")
 		return
@@ -80,7 +80,7 @@ func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
 	httpx.WriteJSON(w, http.StatusOK, posts)
 }
 
-func parseUserID(value string) (int, error) {
+func ParseUserID(value string) (int, error) {
 	var id int
 	_, err := fmt.Sscan(value, &id)
 	if err != nil || id <= 0 {

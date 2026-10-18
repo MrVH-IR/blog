@@ -4,6 +4,7 @@ import (
 	"blog/internal/auth"
 	"blog/internal/httpx"
 	"blog/internal/post"
+	"blog/internal/tags"
 	"blog/internal/user"
 	"context"
 	"net/http"
@@ -67,6 +68,11 @@ func New(pool *pgxpool.Pool) http.Handler {
 	postHandler := post.NewHandler(postService)
 	mux.Handle("POST /api/v1/posts", auth.AuthMiddleware(http.HandlerFunc(postHandler.Create)))
 	mux.Handle("GET /api/v1/posts", auth.AuthMiddleware(http.HandlerFunc(postHandler.List)))
+
+	tagsRepo := tags.NewRepository(pool)
+	tagsService := tags.NewService(tagsRepo)
+	tagHandler := tags.NewHandler(tagsService)
+	mux.Handle("POST /api/v1/tags", auth.AuthMiddleware(http.HandlerFunc(tagHandler.Create)))
 
 	return mux
 }
