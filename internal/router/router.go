@@ -73,6 +73,6 @@ func New(pool *pgxpool.Pool) http.Handler {
 	tagsService := tags.NewService(tagsRepo)
 	tagHandler := tags.NewHandler(tagsService)
 	mux.Handle("POST /api/v1/tags", auth.AuthMiddleware(http.HandlerFunc(tagHandler.Create)))
-
+	mux.Handle("GET /api/v1/tags", auth.AuthMiddleware(http.HandlerFunc(tagHandler.List)))
 	return mux
 }

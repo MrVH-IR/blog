@@ -35,3 +35,7 @@ func (s *Service) Create(ctx context.Context, typeID int64, req *CreateRequest) 
 
 	return s.Repo.Create(ctx, typeID, req)
 }
+
+func (s *Service) List(ctx context.Context) ([]*Tags, error) {
+	return s.Repo.List(ctx)
+}

@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
+	"log"
 	"net/http"
 )
 
@@ -47,18 +48,30 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tags, err := h.Service.Create(r.Context(), req.TaggableID, &req)
-
 	if err != nil {
-		switch {
-		case errors.Is(err, ErrInvalidTagType):
-			httpx.WriteError(w, http.StatusBadRequest, err.Error())
-		case errors.Is(err, ErrInvalidTagID):
-			httpx.WriteError(w, http.StatusBadRequest, err.Error())
-		case errors.Is(err, ErrInvalidTagName):
-			httpx.WriteError(w, http.StatusBadRequest, err.Error())
-		}
+		log.Printf("tags.Create failed: %v", err)
+		httpx.WriteError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	httpx.WriteJSON(w, http.StatusCreated, tags)
+	data := map[string]any{
+		"tags":  tags,
+		"error": nil,
+	}
+
+	httpx.WriteJSON(w, http.StatusCreated, data)
+}
+
+func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
+	tags, err := h.Service.List(r.Context())
+	if err != nil {
+		httpx.WriteError(
+			w,
+			http.StatusInternalServerError,
+			"failed to list tags",
+		)
+		return
+	}
+
+	httpx.WriteJSON(w, http.StatusOK, tags)
 }
