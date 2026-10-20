@@ -2,7 +2,6 @@
 
 A straightforward blog built with Go. This project is an API only and has no frontend.
 
-NOT FINISHED YET
 ## Requirements
 
 - Go 1.26
@@ -35,3 +34,16 @@ For example, to check the database connection:
 ```bash
 curl -X GET "localhost:8000/health/db"
 ```
+
+### DB
+Tables
+```sql
+images,
+posts,
+users,
+tags
+```
+Queries Can be found in every repository in internal/*/repository.go
+Request Types can be found in internal/*/model.go
+
+### For Testing Use cURL or Postman
