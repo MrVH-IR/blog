@@ -3,6 +3,7 @@ package router
 import (
 	"blog/internal/auth"
 	"blog/internal/httpx"
+	"blog/internal/images"
 	"blog/internal/post"
 	"blog/internal/tags"
 	"blog/internal/user"
@@ -74,5 +75,11 @@ func New(pool *pgxpool.Pool) http.Handler {
 	tagHandler := tags.NewHandler(tagsService)
 	mux.Handle("POST /api/v1/tags", auth.AuthMiddleware(http.HandlerFunc(tagHandler.Create)))
 	mux.Handle("GET /api/v1/tags", auth.AuthMiddleware(http.HandlerFunc(tagHandler.List)))
+
+	imagesRepo := images.NewRepository(pool)
+	imagesService := images.NewService(imagesRepo)
+	imagesHandler := images.NewHandler(imagesService)
+	mux.Handle("POST /api/v1/posts/{id}/images", auth.AuthMiddleware(http.HandlerFunc(imagesHandler.Create)))
+
 	return mux
 }

@@ -9,8 +9,7 @@
     <file url="file://$PROJECT_DIR$/db/migrations/000003_create_images.up.sql" value="dfb03281-3096-4f19-a85b-39b98670c181" />
     <file url="file://$PROJECT_DIR$/db/migrations/000004_create_tags.down.sql" value="dfb03281-3096-4f19-a85b-39b98670c181" />
     <file url="file://$PROJECT_DIR$/db/migrations/000004_create_tags.up.sql" value="dfb03281-3096-4f19-a85b-39b98670c181" />
-    <file url="file://$PROJECT_DIR$/db/migrations/000005_create_audit_log.down.sql" value="dfb03281-3096-4f19-a85b-39b98670c181" />
-    <file url="file://$PROJECT_DIR$/db/migrations/000005_create_audit_log.up.sql" value="dfb03281-3096-4f19-a85b-39b98670c181" />
+    <file url="file://$PROJECT_DIR$/internal/images/repository.go" value="dfb03281-3096-4f19-a85b-39b98670c181" />
     <file url="file://$PROJECT_DIR$/internal/post/repository.go" value="dfb03281-3096-4f19-a85b-39b98670c181" />
     <file url="file://$PROJECT_DIR$/internal/tags/repository.go" value="dfb03281-3096-4f19-a85b-39b98670c181" />
     <file url="file://$PROJECT_DIR$/internal/user/repository.go" value="dfb03281-3096-4f19-a85b-39b98670c181" />
